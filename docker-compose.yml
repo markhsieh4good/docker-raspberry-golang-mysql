@@ -1,0 +1,35 @@
+version: '3.3' 
+services:
+  project.db: 
+    image: liupeng0518/mysql:5.7-arm64
+    command: --default-authentication-plugin=mysql_native_password --log-error=/var/lib/mysql/error.log --general-log=ON --general-log-file=/var/lib/mysql/general.log --slow-query-log=ON --slow-query-log-file=/var/lib/mysql/slow.log --log-output=FILE --sql-mode="ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
+    container_name: btcdb.db 
+    restart: always 
+    environment: 
+      MYSQL_ROOT_PASSWORD: "1234qwer" 
+      MYSQL_USER: "btcdb" 
+      MYSQL_PASSWORD: "1234qwer"
+    volumes:
+      - ./mysql_custom_system:/var/lib/mysql
+      # new MYSQL_DATABASE will trigger below files be imported by default to the database specified
+      #- ./mysql_auto_import_folder:/docker-entrypoint-initdb.d
+      #- ./mysql_custom_configuration_80:/etc/mysql/conf.d
+    ports:
+      - 3306:3306 
+      
+  project.adminer:
+    image: phpmyadmin 
+    container_name: btcdb.phpmyadmin 
+    depends_on:
+      - btcdb.db 
+    restart: always 
+    ports: 
+      - 8080:80
+    environment: 
+      PMA_HOST: btcdb.db 
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: 1234qwer
+      #PMA_USER: "root" 
+      #PMA_PASSWORD: "123456" 
+      PMA_ARBITRARY: 1
+## sudo docker run -d --restart=always --name lineage-mysql -v /home/vagrant/lineage-mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1234qwer --network=common-bridge -p 3306:3306 mysql:5.7.38 --sql-mode="ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
