@@ -32,4 +32,9 @@ services:
       #PMA_USER: "root" 
       #PMA_PASSWORD: "123456" 
       PMA_ARBITRARY: 1
+      
+networks: 
+  default: 
+    external: 
+      name: project-bridge 
 ## sudo docker run -d --restart=always --name lineage-mysql -v /home/vagrant/lineage-mysql:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=1234qwer --network=common-bridge -p 3306:3306 mysql:5.7.38 --sql-mode="ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION"
