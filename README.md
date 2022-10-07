@@ -39,7 +39,8 @@ use raspberry 3B and 4 : golang 1.18.7 , mysql 5.7
 ~ >$ sudo apt-get install libffi-dev libssl-dev
 ~ >$ sudo apt install python3-dev
 ~ >$ sudo apt-get install -y python3 python3-pip
-~ >$ sudo pip3 install docker-compose
+~ >$ pip3 install --upgrade pip
+~ >$ pip3 install docker-compose
 ```
 
 ## pull golang 1.18.7
